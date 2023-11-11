@@ -1,30 +1,24 @@
+/*
+ ============================================================================
+ Author        : G. Barlas
+ Version       : 1.0
+ Last modified : December 2014
+ License       : Released under the GNU GPL 3.0
+ Description   : 
+ To build use  : nvcc hello.cu -o hello -arch=sm_20
+ ============================================================================
+ */
 #include <stdio.h>
+#include <cuda.h>
 
-__global__ void helloCUDA()
+__global__ void hello()
 {
-    int threadID = threadIdx.x; // Modifica la forma en que se calcula el identificador del hilo
-    printf("Hello, World! I'm thread %d. Nuestro nombres son Mariana David 201055, Angel Higueros 20460 y Pablo Escobar 20936\n", threadID);
-    
-    // if (threadID == 0) {
-    //     printf("Kernel ejecutado correctamente\n");
-    // } else {
-    //     printf("Error en el kernel: threadID != 0\n");
-    // }
+   printf("Hello world\n");
 }
 
 int main()
 {
-    int numBlocks = 1;          // Número de bloques (1 bloque)
-    int threadsPerBlock = 1024; // Número de hilos por bloque (2048 hilos)
-
-    // Llama al kernel con la configuración de bloques y hilos
-    helloCUDA<<<numBlocks, threadsPerBlock>>>();
-    helloCUDA<<<numBlocks, threadsPerBlock>>>();
-
-    // Espera a que todos los hilos hayan terminado
-    cudaDeviceSynchronize();
-
-    //printf("Fin del programa\n");
-
-    return 0;
+  hello<<<1,10>>>();
+  cudaThreadSynchronize();
+  return 0;
 }
